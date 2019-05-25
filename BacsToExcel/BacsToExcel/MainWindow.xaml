@@ -6,7 +6,7 @@
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=System"
         xmlns:local="clr-namespace:BacsToExcel"
         mc:Ignorable="d"
-        Title="Bacs File Converter" Height="80" Width="150"
+        Title="Bacs File Converter" Height="70" Width="150"
 		WindowStyle="ToolWindow"
 		ResizeMode="NoResize"
 		WindowStartupLocation="CenterScreen">
@@ -19,8 +19,8 @@
 	</Window.Resources>
 	<Grid>
 		<DockPanel Name="DropPanel" Drop="DropPanel_Drop" AllowDrop="true">
-			<Button Name="btnOpen"  FontSize="18" Click="BtnOpen_Click" Background="LightGreen" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0" Width="145">
-				Open File
+			<Button Name="btnOpen"  FontSize="16" Click="BtnOpen_Click" Background="LightGreen" VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="0" Width="145">
+				Open BACS File
 			</Button>
 			<local:Spinner x:Name="spinner" Background="LightGreen" Visibility="Collapsed"></local:Spinner>
 		</DockPanel>
