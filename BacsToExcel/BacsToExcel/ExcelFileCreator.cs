@@ -41,43 +41,63 @@ namespace BacsToExcel
 				(workSheet.Columns[2] as Range).NumberFormat = "£0.00";
 
 				var row = 2;
-				for (var t = 0; t < file.Transactions.Count(); t++)
+				if (file.Transactions.Any())
 				{
-					workSheet.Cells[row + t, 1] = file.Transactions.ElementAt(t).Beneficiary;
-					workSheet.Cells[row + t, 2] = file.Transactions.ElementAt(t).Amount;
-					workSheet.Cells[row + t, 3] = file.Transactions.ElementAt(t).AccountName;
-					workSheet.Cells[row + t, 4] = file.Transactions.ElementAt(t).DestSortCode;
-					workSheet.Cells[row + t, 5] = file.Transactions.ElementAt(t).DestAccountNumber;
-					workSheet.Cells[row + t, 6] = file.Transactions.ElementAt(t).OrigSortCode;
-					workSheet.Cells[row + t, 7] = file.Transactions.ElementAt(t).OrigAccountNumber;
+					for (var t = 0; t < file.Transactions.Count(); t++)
+					{
+						workSheet.Cells[row + t, 1] = file.Transactions.ElementAt(t).Beneficiary;
+						workSheet.Cells[row + t, 2] = file.Transactions.ElementAt(t).Amount;
+						workSheet.Cells[row + t, 3] = file.Transactions.ElementAt(t).AccountName;
+						workSheet.Cells[row + t, 4] = file.Transactions.ElementAt(t).DestSortCode;
+						workSheet.Cells[row + t, 5] = file.Transactions.ElementAt(t).DestAccountNumber;
+						workSheet.Cells[row + t, 6] = file.Transactions.ElementAt(t).OrigSortCode;
+						workSheet.Cells[row + t, 7] = file.Transactions.ElementAt(t).OrigAccountNumber;
+					}
+					row += 2 + file.Transactions.Count();
 				}
-
-				row += 2 + file.Transactions.Count();
-				for (var c = 0; c < file.ContraRecords.Count(); c++)
+				if (file.ContraRecords.Any())
 				{
-					workSheet.Cells[row + c, 1] = file.ContraRecords.ElementAt(c).Beneficiary;
-					workSheet.Cells[row + c, 2] = file.ContraRecords.ElementAt(c).Amount;
-					workSheet.Cells[row + c, 3] = file.ContraRecords.ElementAt(c).AccountName;
-					workSheet.Cells[row + c, 4] = file.ContraRecords.ElementAt(c).DestSortCode;
-					workSheet.Cells[row + c, 5] = file.ContraRecords.ElementAt(c).DestAccountNumber;
-					workSheet.Cells[row + c, 6] = file.ContraRecords.ElementAt(c).OrigSortCode;
-					workSheet.Cells[row + c, 7] = file.ContraRecords.ElementAt(c).OrigAccountNumber;
+					for (var c = 0; c < file.ContraRecords.Count(); c++)
+					{
+						workSheet.Cells[row + c, 1] = file.ContraRecords.ElementAt(c).Beneficiary;
+						workSheet.Cells[row + c, 2] = file.ContraRecords.ElementAt(c).Amount;
+						workSheet.Cells[row + c, 3] = file.ContraRecords.ElementAt(c).AccountName;
+						workSheet.Cells[row + c, 4] = file.ContraRecords.ElementAt(c).DestSortCode;
+						workSheet.Cells[row + c, 5] = file.ContraRecords.ElementAt(c).DestAccountNumber;
+						workSheet.Cells[row + c, 6] = file.ContraRecords.ElementAt(c).OrigSortCode;
+						workSheet.Cells[row + c, 7] = file.ContraRecords.ElementAt(c).OrigAccountNumber;
+					}
+					row += 2 + file.ContraRecords.Count();
 				}
-
-				row += 2 + file.ContraRecords.Count();
-				workSheet.Cells[row, 1] = "Credit Value Total";
-				workSheet.Cells[row, 2] = file.CreditValueTotal;
-				workSheet.Cells[row, 4] = "Credit Item Count";
-				workSheet.Cells[row, 5] = file.CreditItemCount;
-				workSheet.Cells[row + 1, 1] = "Debit Value Total";
-				workSheet.Cells[row + 1, 2] = file.DebitValueTotal;
-				workSheet.Cells[row + 1, 4] = "Debit Item Count";
-				workSheet.Cells[row + 1, 5] = file.DebitItemCount;
-				workSheet.get_Range($"A{row}", $"A{row}").Font.Bold = true;
-				workSheet.get_Range($"D{row}", $"D{row}").Font.Bold = true;
-				workSheet.get_Range($"A{row + 1}", $"A{row + 2}").Font.Bold = true;
-				workSheet.get_Range($"D{row + 1}", $"D{row + 2}").Font.Bold = true;
-
+				if (file.DDIs.Any())
+				{
+					for (var d = 0; d < file.DDIs.Count(); d++)
+					{
+						workSheet.Cells[row + d, 1] = file.DDIs.ElementAt(d).Beneficiary;
+						workSheet.Cells[row + d, 2] = file.DDIs.ElementAt(d).Amount;
+						workSheet.Cells[row + d, 3] = file.DDIs.ElementAt(d).AccountName;
+						workSheet.Cells[row + d, 4] = file.DDIs.ElementAt(d).DestSortCode;
+						workSheet.Cells[row + d, 5] = file.DDIs.ElementAt(d).DestAccountNumber;
+						workSheet.Cells[row + d, 6] = file.DDIs.ElementAt(d).OrigSortCode;
+						workSheet.Cells[row + d, 7] = file.DDIs.ElementAt(d).OrigAccountNumber;
+					}
+					row += 2 + file.DDIs.Count();
+				}
+				if (file.Transactions.Any())
+				{
+					workSheet.Cells[row, 1] = "Credit Value Total";
+					workSheet.Cells[row, 2] = file.CreditValueTotal;
+					workSheet.Cells[row, 4] = "Credit Item Count";
+					workSheet.Cells[row, 5] = file.CreditItemCount;
+					workSheet.Cells[row + 1, 1] = "Debit Value Total";
+					workSheet.Cells[row + 1, 2] = file.DebitValueTotal;
+					workSheet.Cells[row + 1, 4] = "Debit Item Count";
+					workSheet.Cells[row + 1, 5] = file.DebitItemCount;
+					workSheet.get_Range($"A{row}", $"A{row}").Font.Bold = true;
+					workSheet.get_Range($"D{row}", $"D{row}").Font.Bold = true;
+					workSheet.get_Range($"A{row + 1}", $"A{row + 2}").Font.Bold = true;
+					workSheet.get_Range($"D{row + 1}", $"D{row + 2}").Font.Bold = true;
+				}
 				workBook.Worksheets[1].Name = $"PF-{file.PaymentFileId}";
 				workBook.SaveAs(file.FileName);
 				workBook.Close();

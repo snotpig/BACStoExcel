@@ -31,18 +31,18 @@ namespace BacsToExcel
 		{
 			var openFileDialog = new OpenFileDialog();
 
-			openFileDialog.Filter = $"BACS files (*.txt)|*.txt";
+			openFileDialog.Filter = $"BACS files (*.txt;*.csv)|*.txt;*.csv";
 			var result = openFileDialog.ShowDialog();
 			if (result.Value)
 				LoadFile(openFileDialog.FileName);
 		}
 
-		private void LoadFile(string filePath)
+		private void LoadFile(string fileName)
 		{
 			List<string> fileLines;
 			try
 			{
-				fileLines = File.ReadAllLines(filePath).ToList();
+				fileLines = File.ReadAllLines(fileName).ToList();
 			}
 			catch(Exception ex)
 			{
@@ -62,6 +62,7 @@ namespace BacsToExcel
 				CreationDate = GetDate(hdr1.Substring(42, 5)),
 				Transactions = data.Where(l => l.Substring(15, 2) == "99").Select(GetTransaction),
 				ContraRecords = data.Where(l => l.Substring(15, 2) == "17").Select(GetTransaction),
+				DDIs = data.Where(l => l.Substring(15, 2) == "0N").Select(GetTransaction),
 				DebitValueTotal = decimal.Parse(utl1.Substring(4, 13)) / 100M,
 				CreditValueTotal = decimal.Parse(utl1.Substring(17, 13)) / 100M,
 				DebitItemCount = int.Parse(utl1.Substring(30, 7)),
@@ -73,7 +74,7 @@ namespace BacsToExcel
 				AddExtension = true,
 				DefaultExt = ".xlsx",
 				OverwritePrompt = false,
-				FileName = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\BACS\{Path.GetFileNameWithoutExtension(filePath)}.xlsx"
+				FileName = Path.ChangeExtension(fileName, ".xlsx")
 			};
 			var result = dlg.ShowDialog();
 			if (result.Value)
